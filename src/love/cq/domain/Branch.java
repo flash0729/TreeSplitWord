@@ -57,8 +57,8 @@ public class Branch implements WoodInterface {
 	}
 
 	public WoodInterface get(char c) {
-		if(this.branches==null){
-			return null ;
+		if (this.branches == null) {
+			return null;
 		}
 		int i = AnsjArrays.binarySearch(this.branches, c);
 		if (i > -1) {
@@ -68,8 +68,8 @@ public class Branch implements WoodInterface {
 	}
 
 	public boolean contains(char c) {
-		if(this.branches==null){
-			return false ;
+		if (this.branches == null) {
+			return false;
 		}
 		return AnsjArrays.binarySearch(this.branches, c) > -1;
 	}
@@ -105,6 +105,18 @@ public class Branch implements WoodInterface {
 
 	public String[] getParams() {
 		return this.param;
+	}
+
+	/**
+	 * 得道第几个参数
+	 * @param i
+	 * @return
+	 */
+	public String getParam(int i) {
+		if (param != null && param.length > i) {
+			return param[i];
+		}
+		return null;
 	}
 
 	public void setParam(String[] param) {

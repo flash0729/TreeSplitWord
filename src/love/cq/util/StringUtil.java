@@ -1,5 +1,7 @@
 package love.cq.util;
 
+import java.util.Arrays;
+
 public class StringUtil {
 
     private static int[] filter = new int[128];
@@ -138,4 +140,15 @@ public class StringUtil {
         }
         return sb.toString();
     }
+    
+    /**
+     * 将一个字符串.转换成排序后的字符数组
+     * @param str
+     * @return
+     */
+    public static char[] sortCharArray(String str) {
+		char[] chars = str.toCharArray();
+		Arrays.sort(chars);
+		return chars;
+	}
 }

@@ -55,7 +55,7 @@ public class Library {
 	}
 
 	public static void insertWord(Forest forest, Value value) {
-		insertWord(forest, value.toString());
+		insertWord(forest, value.getKeyword(), value.getParamers());
 	}
 
 	/**
@@ -69,17 +69,20 @@ public class Library {
 
 		temp = param[0];
 
-		String[] resultParams = null;
+		String[] resultParams = new String[param.length - 1];
+		for (int j = 1; j < param.length; j++) {
+			resultParams[j - 1] = param[j];
+		}
 
+		insertWord(forest, temp, resultParams);
+	}
+
+	private static void insertWord(Forest forest, String temp, String[] param) {
 		WoodInterface branch = forest;
 		char[] chars = temp.toCharArray();
 		for (int i = 0; i < chars.length; i++) {
 			if (chars.length == i + 1) {
-				resultParams = new String[param.length - 1];
-				for (int j = 1; j < param.length; j++) {
-					resultParams[j - 1] = param[j];
-				}
-				branch.add(new Branch(chars[i], 3, resultParams));
+				branch.add(new Branch(chars[i], 3, param));
 			} else {
 				branch.add(new Branch(chars[i], 1, null));
 			}
