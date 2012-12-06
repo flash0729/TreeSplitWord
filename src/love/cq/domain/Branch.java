@@ -41,7 +41,7 @@ public class Branch implements WoodInterface {
 			}
 			return this.branch;
 		}
-		this.index = (short) (this.index + 1);
+		this.index = (short)(this.index + 1);
 		if (this.index + 1 > this.branches.length) {
 			this.branches = ((WoodInterface[]) Arrays.copyOf(this.branches, this.index + 1));
 		}

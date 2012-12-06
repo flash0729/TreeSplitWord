@@ -7,10 +7,11 @@ import java.util.Arrays;
 import love.cq.domain.Forest;
 import love.cq.domain.WoodInterface;
 import love.cq.library.Library;
+import love.cq.util.StringUtil;
 
 public class GetWord {
-	private static final String EMPTYSTRING = "" ;
-	
+	private static final String EMPTYSTRING = "";
+
 	private Forest forest;
 	private char[] chars;
 	private String str;
@@ -194,9 +195,9 @@ public class GetWord {
 		/**
 		 * 词典的构造.一行一个词后面是参数.可以从文件读取.可以是read流.
 		 */
-		String dic = "java学习\t10\nc\t100\nC++\t10\nc++\t5\nc#\t100".toLowerCase();
+		long start = System.currentTimeMillis();
+		String dic = "java学习\t10\nc\t100\nC++\t10\nc++\t5\nc#\t100\nVC++\t100".toLowerCase();
 		Forest forest = Library.makeForest(new BufferedReader(new StringReader(dic)));
-
 		/**
 		 * 删除一个单词
 		 */
@@ -205,11 +206,18 @@ public class GetWord {
 		 * 增加一个新词
 		 */
 		Library.insertWord(forest, "中国人");
-		String content = "c c++ c++ c++ ".toLowerCase();
-		GetWord udg = forest.getWord(content.toLowerCase());
+		String content = "这个数据范围指的确实是具体 int的取值范围,但不是你理解的那样。 现在以16位的short为例。 首先必须清楚一个概念,计算机中存放的数据都是以二进制形式存放的。".toLowerCase();
+		content = StringUtil.rmHtmlTag(content);
 
-		String temp = null;
-		while ((temp = udg.getFrontWords()) != null)
-			System.out.println(temp + "\t\t" + udg.getParam(0) + "\t\t" + udg.getParam(2));
+		for (int i = 0; i < 100000; i++) {
+			GetWord udg = forest.getWord(content.toLowerCase());
+
+			String temp = null;
+			while ((temp = udg.getFrontWords()) != null) {
+				if (i == 0)
+					System.out.println(temp + "\t\t" + udg.getParam(0) + "\t\t" + udg.getParam(2));
+			}
+		}
+		System.out.println(System.currentTimeMillis() - start);
 	}
 }

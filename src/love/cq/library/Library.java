@@ -24,7 +24,8 @@ public class Library {
 	public static Forest makeForest(BufferedReader br) throws Exception {
 		return makeLibrary(br, new Forest());
 	}
-
+	
+	
 	/**
 	 * 传入value数组.构造树
 	 * 
@@ -40,7 +41,15 @@ public class Library {
 		return forest;
 	}
 
+	/**
+	 * 词典树的构造方法
+	 * @param br
+	 * @param forest
+	 * @return
+	 * @throws Exception
+	 */
 	private static Forest makeLibrary(BufferedReader br, Forest forest) throws Exception {
+		if(br==null) return forest ;
 		try {
 			String temp = null;
 			while ((temp = br.readLine()) != null) {
@@ -64,7 +73,7 @@ public class Library {
 	 * @param forest
 	 * @param temp
 	 */
-	public static void insertWord(Forest forest, String temp) {
+	public static void insertWord(WoodInterface forest, String temp) {
 		String[] param = temp.split("\t");
 
 		temp = param[0];
@@ -77,7 +86,7 @@ public class Library {
 		insertWord(forest, temp, resultParams);
 	}
 
-	private static void insertWord(Forest forest, String temp, String[] param) {
+	private static void insertWord(WoodInterface forest, String temp, String[] param) {
 		WoodInterface branch = forest;
 		char[] chars = temp.toCharArray();
 		for (int i = 0; i < chars.length; i++) {

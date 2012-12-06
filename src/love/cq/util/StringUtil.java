@@ -21,7 +21,6 @@ public class StringUtil {
         filter['\t'] = -1;
         filter[' '] = 1;
         filter['*'] = 1;
-        filter['+'] = 1;
         filter['-'] = 1;
         filter['.'] = 1;
         filter['#'] = 1;
@@ -150,5 +149,9 @@ public class StringUtil {
 		char[] chars = str.toCharArray();
 		Arrays.sort(chars);
 		return chars;
+	}
+    
+    public static void main(String[] args) {
+		System.out.println(rmHtmlTag("c+++++++++"));
 	}
 }

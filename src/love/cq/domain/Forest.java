@@ -1,6 +1,5 @@
 package love.cq.domain;
 
-import love.cq.library.Library;
 import love.cq.splitWord.GetWord;
 
 public class Forest implements WoodInterface {
