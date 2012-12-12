@@ -1,7 +1,5 @@
 package love.cq.domain;
 
-import java.util.Arrays;
-
 import love.cq.util.AnsjArrays;
 
 public class Branch implements WoodInterface {
@@ -12,8 +10,6 @@ public class Branch implements WoodInterface {
 	private char c;
 	// 状态
 	private byte status = 1;
-	// 索引
-	private short index = -1;
 	// 单独查找出来的对象
 	WoodInterface branch = null;
 	// 词典后的参数
@@ -23,7 +19,9 @@ public class Branch implements WoodInterface {
 		if (branches == null) {
 			branches = new WoodInterface[0];
 		}
-		if ((this.branch = get(branch.getC())) != null) {
+		int bs = AnsjArrays.binarySearch(branches, branch.getC());
+		if (bs >= 0) {
+			this.branch = this.branches[bs];
 			switch (branch.getStatus()) {
 			case -1:
 				this.branch.setStatus(1);
@@ -40,14 +38,15 @@ public class Branch implements WoodInterface {
 				this.branch.setParam(branch.getParams());
 			}
 			return this.branch;
+		} else {
+			WoodInterface[] newBranches = new WoodInterface[branches.length + 1];
+			int insert = -(bs + 1);
+			System.arraycopy(branches, 0, newBranches, 0, insert);
+			System.arraycopy(branches, insert, newBranches, insert + 1, branches.length - insert);
+			newBranches[insert] = branch;
+			branches = newBranches;
+			return branch;
 		}
-		this.index = (short)(this.index + 1);
-		if (this.index + 1 > this.branches.length) {
-			this.branches = ((WoodInterface[]) Arrays.copyOf(this.branches, this.index + 1));
-		}
-		this.branches[this.index] = branch;
-		AnsjArrays.sort(this.branches);
-		return branch;
 	}
 
 	public Branch(char c, int status, String[] param) {
@@ -57,14 +56,11 @@ public class Branch implements WoodInterface {
 	}
 
 	public WoodInterface get(char c) {
-		if (this.branches == null) {
+		int i = AnsjArrays.binarySearch(this.branches, c);
+		if (i < 0) {
 			return null;
 		}
-		int i = AnsjArrays.binarySearch(this.branches, c);
-		if (i > -1) {
-			return this.branches[i];
-		}
-		return null;
+		return this.branches[i];
 	}
 
 	public boolean contains(char c) {
@@ -87,6 +83,7 @@ public class Branch implements WoodInterface {
 		return this.c == c;
 	}
 
+	@Override
 	public int hashCode() {
 		return this.c;
 	}
@@ -109,6 +106,7 @@ public class Branch implements WoodInterface {
 
 	/**
 	 * 得道第几个参数
+	 * 
 	 * @param i
 	 * @return
 	 */

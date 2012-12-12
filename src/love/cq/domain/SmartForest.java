@@ -18,8 +18,6 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 	private char c;
 	// 状态
 	private byte status = 1;
-	// 索引
-	private int index = -1;
 	// 单独查找出来的对象
 	SmartForest<T> branch = null;
 	// 词典后的参数
@@ -40,11 +38,14 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 	 * @param branch
 	 * @return
 	 */
+	@SuppressWarnings("unchecked")
 	private SmartForest<T> add(SmartForest<T> branch) {
 		if (branches == null) {
 			branches = new SmartForest[0];
 		}
-		if ((this.branch = get(branch.getC())) != null) {
+		int bs = get(branch.getC());
+		if (bs > -1) {
+			this.branch = this.branches[bs];
 			switch (branch.getStatus()) {
 			case -1:
 				this.branch.setStatus(1);
@@ -62,12 +63,15 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 			}
 			return this.branch;
 		}
-		this.index = (this.index + 1);
-		if (this.index + 1 > this.branches.length) {
-			this.branches = ((SmartForest<T>[]) Arrays.copyOf(this.branches, this.index + 1));
+
+		if (bs < 0) {
+			SmartForest<T>[] newBranches = new SmartForest[branches.length + 1];
+			int insert = -(bs + 1);
+			System.arraycopy(this.branches, 0, newBranches, 0, insert);
+			System.arraycopy(branches, insert, newBranches, insert + 1, branches.length - insert);
+			newBranches[insert] = branch;
+			this.branches = newBranches;
 		}
-		this.branches[this.index] = branch;
-		Arrays.sort(this.branches);
 		return branch;
 	}
 
@@ -77,15 +81,9 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 		this.param = param;
 	}
 
-	public SmartForest<T> get(char c) {
-		if (this.branches == null) {
-			return null;
-		}
+	public int get(char c) {
 		int i = Arrays.binarySearch(this.branches, new SmartForest<T>(c));
-		if (i > -1) {
-			return this.branches[i];
-		}
-		return null;
+		return i;
 	}
 
 	/**
@@ -114,6 +112,7 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 		return this.c == c;
 	}
 
+	@Override
 	public int hashCode() {
 		return this.c;
 	}
@@ -138,7 +137,6 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 		this.param = param;
 	}
 
-
 	/**
 	 * 增加新词
 	 * 
@@ -152,11 +150,10 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 			} else {
 				tempBranch.add(new SmartForest<T>(keyWord.charAt(i), 1, null));
 			}
-			tempBranch = tempBranch.get(keyWord.charAt(i));
+			tempBranch = tempBranch.branches[tempBranch.get(keyWord.charAt(i))];
 		}
 	}
 
-	@Override
 	public int compareTo(SmartForest<T> o) {
 		// TODO Auto-generated method stub
 		if (this.c > o.c)
@@ -174,11 +171,13 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 	 */
 	public SmartForest<T> getBranch(String keyWord) {
 		SmartForest<T> tempBranch = this;
+		int index =0 ;
 		for (int j = 0; j < keyWord.length(); j++) {
-			tempBranch = tempBranch.get(keyWord.charAt(j));
-			if (tempBranch == null) {
+			index = tempBranch.get(keyWord.charAt(j));
+			if (index<0) {
 				return null;
 			}
+			tempBranch = tempBranch.branches[index] ;
 		}
 		return tempBranch;
 	}
@@ -191,7 +190,7 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 		sf.add("ruby", 4);
 		sf.add(".net", 5);
 
-		SmartForest<Integer> branch2 = sf.getBranch("php") ;
+		SmartForest<Integer> branch2 = sf.getBranch("java");
 		System.out.println(branch2.getParam());
 	}
 

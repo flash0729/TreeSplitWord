@@ -206,7 +206,7 @@ public class GetWord {
 		 * 增加一个新词
 		 */
 		Library.insertWord(forest, "中国人");
-		String content = "这个数据范围指的确实是具体 int的取值范围,但不是你理解的那样。 现在以16位的short为例。 首先必须清楚一个概念,计算机中存放的数据都是以二进制形式存放的。".toLowerCase();
+		String content = "这个数据范围指的确中国人实是具体 int的取值范围,但不是你理解的那样。 现在以16位的short为例。 首先必须清楚一个概念,计算机中存放的数据都是以二进制形式存放的。".toLowerCase();
 		content = StringUtil.rmHtmlTag(content);
 
 		for (int i = 0; i < 100000; i++) {
@@ -214,7 +214,6 @@ public class GetWord {
 
 			String temp = null;
 			while ((temp = udg.getFrontWords()) != null) {
-				if (i == 0)
 					System.out.println(temp + "\t\t" + udg.getParam(0) + "\t\t" + udg.getParam(2));
 			}
 		}

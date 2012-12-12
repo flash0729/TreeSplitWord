@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import love.cq.domain.WoodInterface;
 
-
 public class AnsjArrays {
 	private static final int INSERTIONSORT_THRESHOLD = 7;
 
@@ -33,7 +32,7 @@ public class AnsjArrays {
 			else
 				return mid; // key found
 		}
-		return -1; // key not found.
+		return -(low + 1); // key not found.
 	}
 
 	public static void main(String[] args) {
@@ -47,10 +46,10 @@ public class AnsjArrays {
 	}
 
 	public static void sort(WoodInterface[] a) {
-		WoodInterface[] aux = (WoodInterface[])a.clone();
-        mergeSort(aux, a, 0, a.length, 0);
-    }
-	
+		WoodInterface[] aux = a.clone();
+		mergeSort(aux, a, 0, a.length, 0);
+	}
+
 	public static void sort(WoodInterface[] a, int fromIndex, int toIndex) {
 		rangeCheck(a.length, fromIndex, toIndex);
 		WoodInterface[] aux = copyOfRange(a, fromIndex, toIndex);
@@ -59,23 +58,20 @@ public class AnsjArrays {
 
 	private static void rangeCheck(int arrayLen, int fromIndex, int toIndex) {
 		if (fromIndex > toIndex)
-			throw new IllegalArgumentException("fromIndex(" + fromIndex
-					+ ") > toIndex(" + toIndex + ")");
+			throw new IllegalArgumentException("fromIndex(" + fromIndex + ") > toIndex(" + toIndex + ")");
 		if (fromIndex < 0)
 			throw new ArrayIndexOutOfBoundsException(fromIndex);
 		if (toIndex > arrayLen)
 			throw new ArrayIndexOutOfBoundsException(toIndex);
 	}
 
-	private static void mergeSort(WoodInterface[] src, WoodInterface[] dest, int low,
-			int high, int off) {
+	private static void mergeSort(WoodInterface[] src, WoodInterface[] dest, int low, int high, int off) {
 		int length = high - low;
 
 		// Insertion sort on smallest arrays
 		if (length < INSERTIONSORT_THRESHOLD) {
 			for (int i = low; i < high; i++)
-				for (int j = i; j > low
-						&& (dest[j - 1]).compareTo(dest[j].getC()) > 0; j--)
+				for (int j = i; j > low && (dest[j - 1]).compareTo(dest[j].getC()) > 0; j--)
 					swap(dest, j, j - 1);
 			return;
 		}
@@ -98,8 +94,7 @@ public class AnsjArrays {
 
 		// Merge sorted halves (now in src) into dest
 		for (int i = destLow, p = low, q = mid; i < destHigh; i++) {
-			if (q >= high || p < mid
-					&&  src[p].compareTo(src[q].getC()) <= 0)
+			if (q >= high || p < mid && src[p].compareTo(src[q].getC()) <= 0)
 				dest[i] = src[p++];
 			else
 				dest[i] = src[q++];
@@ -115,20 +110,18 @@ public class AnsjArrays {
 		x[b] = t;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static <T> T[] copyOfRange(T[] original, int from, int to) {
 		return copyOfRange(original, from, to, (Class<T[]>) original.getClass());
 	}
 
-	public static <T, U> T[] copyOfRange(U[] original, int from, int to,
-			Class<? extends T[]> newType) {
+	public static <T, U> T[] copyOfRange(U[] original, int from, int to, Class<? extends T[]> newType) {
 		int newLength = to - from;
 		if (newLength < 0)
 			throw new IllegalArgumentException(from + " > " + to);
-		T[] copy = ((Object) newType == (Object) Object[].class) ? (T[]) new Object[newLength]
-				: (T[]) Array
-						.newInstance(newType.getComponentType(), newLength);
-		System.arraycopy(original, from, copy, 0, Math.min(original.length
-				- from, newLength));
+		@SuppressWarnings("unchecked")
+		T[] copy = ((Object) newType == (Object) Object[].class) ? (T[]) new Object[newLength] : (T[]) Array.newInstance(newType.getComponentType(), newLength);
+		System.arraycopy(original, from, copy, 0, Math.min(original.length - from, newLength));
 		return copy;
 	}
 }

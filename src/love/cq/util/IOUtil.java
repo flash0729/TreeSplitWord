@@ -12,15 +12,19 @@ import java.io.ObjectOutputStream;
 import java.io.RandomAccessFile;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
-import java.util.HashMap;
 
+/**
+ * java 一个简单的io操作
+ * 
+ * @author ansj
+ * 
+ */
 public class IOUtil {
 	private static InputStream is = null;
 	private static FileOutputStream fos = null;
 
 	public static InputStream getInputStream(String path) {
 		try {
-			File f = new File(path);
 			return new FileInputStream(path);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -72,20 +76,21 @@ public class IOUtil {
 
 	/**
 	 * 将一个对象序列化到硬盘中
+	 * 
 	 * @param string
 	 * @param hm
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 */
-	public static void WriterObj(String path,Serializable hm) throws FileNotFoundException, IOException {
+	public static void WriterObj(String path, Serializable hm) throws FileNotFoundException, IOException {
 		// TODO Auto-generated method stub
-		ObjectOutputStream objectOutputStream =null ;
-		try{
-			objectOutputStream = new ObjectOutputStream(new FileOutputStream(path)) ;
-			objectOutputStream.writeObject(hm) ;
-		}finally{
-			if(objectOutputStream!=null){
-				objectOutputStream.close() ;
+		ObjectOutputStream objectOutputStream = null;
+		try {
+			objectOutputStream = new ObjectOutputStream(new FileOutputStream(path));
+			objectOutputStream.writeObject(hm);
+		} finally {
+			if (objectOutputStream != null) {
+				objectOutputStream.close();
 			}
 		}
 	}
