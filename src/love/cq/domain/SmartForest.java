@@ -82,6 +82,7 @@ public class SmartForest<T> implements Comparable<SmartForest<T>> {
 	}
 
 	public int get(char c) {
+		if(branches==null)return -1 ;
 		int i = Arrays.binarySearch(this.branches, new SmartForest<T>(c));
 		return i;
 	}

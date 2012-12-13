@@ -56,6 +56,9 @@ public class Branch implements WoodInterface {
 	}
 
 	public WoodInterface get(char c) {
+		if (this.branches == null) {
+			return null;
+		}
 		int i = AnsjArrays.binarySearch(this.branches, c);
 		if (i < 0) {
 			return null;
