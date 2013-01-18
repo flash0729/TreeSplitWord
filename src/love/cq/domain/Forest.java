@@ -40,10 +40,6 @@ public class Forest implements WoodInterface {
 		return this.chars[c];
 	}
 
-	public static void main(String[] args) {
-		Forest f = new Forest();
-		System.out.println(f.chars[19968]);
-	}
 
 	public int compareTo(char c) {
 		return 0;
@@ -91,4 +87,5 @@ public class Forest implements WoodInterface {
 	public GetWord getWord(String content) {
 		return new GetWord(this, content);
 	}
+	
 }

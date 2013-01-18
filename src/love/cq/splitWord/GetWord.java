@@ -196,7 +196,7 @@ public class GetWord {
 		 * 词典的构造.一行一个词后面是参数.可以从文件读取.可以是read流.
 		 */
 		long start = System.currentTimeMillis();
-		String dic = "java学习\t10\nc\t100\nC++\t10\nc++\t5\nc#\t100\nVC++\t100".toLowerCase();
+		String dic = "android\t10\nc\t100\nC++\t10\nc++\t5\nc#\t100\nVC++\t100".toLowerCase();
 		Forest forest = Library.makeForest(new BufferedReader(new StringReader(dic)));
 		/**
 		 * 删除一个单词
@@ -206,10 +206,10 @@ public class GetWord {
 		 * 增加一个新词
 		 */
 		Library.insertWord(forest, "中国人");
-		String content = "这个数据范围指的确中国人实是具体 int的取值范围,但不是你理解的那样。 现在以16位的short为例。 首先必须清楚一个概念,计算机中存放的数据都是以二进制形式存放的。".toLowerCase();
+		String content = "Android";
 		content = StringUtil.rmHtmlTag(content);
 
-		for (int i = 0; i < 100000; i++) {
+		for (int i = 0; i < 1; i++) {
 			GetWord udg = forest.getWord(content.toLowerCase());
 
 			String temp = null;
