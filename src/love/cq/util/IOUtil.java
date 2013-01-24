@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
+import java.io.Reader;
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 
@@ -23,9 +25,6 @@ public class IOUtil {
 	public static final String UTF8 = "utf-8";
 	public static final String GBK = "gbk";
 
-	private static InputStream is = null;
-	private static FileOutputStream fos = null;
-
 	public static InputStream getInputStream(String path) {
 		try {
 			return new FileInputStream(path);
@@ -36,12 +35,12 @@ public class IOUtil {
 	}
 
 	public static BufferedReader getReader(String path, String charEncoding) throws UnsupportedEncodingException {
-		is = getInputStream(path);
+		InputStream is = getInputStream(path);
 		return new BufferedReader(new InputStreamReader(is, charEncoding));
 	}
 
 	public static RandomAccessFile getRandomAccessFile(String path, String charEncoding) throws FileNotFoundException {
-		is = getInputStream(path);
+		InputStream is = getInputStream(path);
 		if (is != null) {
 			return new RandomAccessFile(new File(path), "r");
 		}
@@ -49,6 +48,7 @@ public class IOUtil {
 	}
 
 	public static void Writer(String path, String charEncoding, String content) {
+		OutputStream fos = null;
 		try {
 			fos = new FileOutputStream(new File(path));
 			fos.write(content.getBytes(charEncoding));
@@ -58,25 +58,7 @@ public class IOUtil {
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				fos.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-	}
-
-	public void close() {
-		if (is != null) {
-			try {
-				is.close();
-			} catch (IOException e) {
-				is = null;
-
-				e.printStackTrace();
-			}
-			is = null;
+			close(fos);
 		}
 	}
 
@@ -156,6 +138,53 @@ public class IOUtil {
 			if (objectOutputStream != null) {
 				objectOutputStream.close();
 			}
+		}
+	}
+
+	/**
+	 * 关闭字符流
+	 * 
+	 * @param reader
+	 */
+	public static void close(Reader reader) {
+		try {
+			if (reader != null)
+				reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 关闭字节流
+	 * 
+	 * @param is
+	 */
+	public static void close(InputStream is) {
+		try {
+			if (is != null)
+				is.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * 关闭字节流
+	 * 
+	 * @param is
+	 */
+	public static void close(OutputStream os) {
+		try {
+			if (os != null) {
+				os.flush();
+				os.close();
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }

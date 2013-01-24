@@ -3,7 +3,7 @@ package love.cq.domain;
 import love.cq.splitWord.GetWord;
 
 public class Forest implements WoodInterface {
-	WoodInterface[] chars = new WoodInterface[65536];
+	private WoodInterface[] chars = new WoodInterface[65536];
 	
 
 	public WoodInterface add(WoodInterface branch) {
@@ -88,4 +88,10 @@ public class Forest implements WoodInterface {
 		return new GetWord(this, content);
 	}
 	
+	/**
+	 * 清空树释放内存
+	 */
+	public void clear(){
+		chars = new WoodInterface[65535] ;
+	}
 }
