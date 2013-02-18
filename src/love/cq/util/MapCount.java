@@ -1,6 +1,8 @@
 package love.cq.util;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map.Entry;
 
 /**
  * 用map做的计数器.
@@ -67,5 +69,26 @@ public class MapCount<T> {
 	 */
 	public HashMap<T, Integer> get(){
 		return this.hm ;
+	}
+	
+	/**
+	 * 将map序列化为词典格式
+	 * @return
+	 */
+	public String getDic(){
+		Iterator<Entry<T, Integer>> iterator = this.hm.entrySet().iterator() ;
+		StringBuilder sb = new StringBuilder() ;
+		Entry<T, Integer> next = null ;
+		while(iterator.hasNext()){
+			next = iterator.next() ;
+			sb.append(next.getKey()) ;
+			sb.append("\t") ;
+			sb.append(next.getValue()) ;
+			sb.append("\n") ;
+		}
+		return sb.toString() ;
+	}
+	public static void main(String[] args) {
+		System.out.println(Long.MAX_VALUE);
 	}
 }
