@@ -10,8 +10,10 @@ public class Test {
 		Forest forest = new Forest() ;
 		Library.insertWord(forest,"AA") ;
 		Library.insertWord(forest, "bb") ;
+		Library.insertWord(forest, "索尼") ;
+		Library.insertWord(forest, "尼康") ;
 		
-		GetWord gw = new GetWord(forest, "aa bb AA BB") ;
+		GetWord gw = new GetWord(forest, "aa bb AA BB 索尼光盘尼康未来") ;
 		String temp = null ;
 		while((temp=gw.getFrontWords())!=null)
 			System.out.println(temp);
