@@ -161,14 +161,14 @@ public class GetWord {
 		switch (c) {
 		case '.':
 			return true;
-		case '-':
-			return true;
-		case '/':
-			return true;
-		case '#':
-			return true;
-		case '?':
-			return true;
+//		case '-':
+//			return true;
+//		case '/':
+//			return true;
+//		case '#':
+//			return true;
+//		case '?':
+//			return true;
 		}
 		return false;
 	}
@@ -206,7 +206,7 @@ public class GetWord {
 		 * 增加一个新词
 		 */
 		Library.insertWord(forest, "中国人");
-		String content = "Android";
+		String content = "Android--中国";
 		content = StringUtil.rmHtmlTag(content);
 
 		for (int i = 0; i < 1; i++) {
