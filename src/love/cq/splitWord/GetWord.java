@@ -190,6 +190,10 @@ public class GetWord {
 		}
 		return this.param[i];
 	}
+	
+	public String[] getParams() {
+		return this.param;
+	}
 
 	public static void main(String[] args) throws Exception {
 		/**
